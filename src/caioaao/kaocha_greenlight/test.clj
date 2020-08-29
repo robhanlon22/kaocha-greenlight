@@ -19,7 +19,11 @@
 (defmethod testable/-run :caioaao.kaocha-greenlight/test
   [testable test-plan]
   (t/do-report {:type :begin-test-suite})
-  (let [testable (runner/run testable test-plan :test)]
+  (let [test-plan (merge test-plan
+                         (select-keys testable
+                                      [:caioaao.kaocha-greenlight/new-system
+                                       :caioaao.kaocha-greenlight/system-scope]))
+        testable  (runner/run testable test-plan :test)]
     (t/do-report {:type :end-test-suite})
     testable))
 
